@@ -3,9 +3,32 @@ var context = canvas.getContext('2d');
 
 var background = new Image();
 background.src = "./img/background.jpg";
+
 background.onload = function(){
-    context.drawImage(background, 0,0);
-    
+    game();
+    requestAnimFrame(game);
 }
 
-console.log(background);
+function game(){
+    
+    update();
+    render();
+}
+
+function update(){
+
+}
+
+function render(){
+    context.drawImage(background, 0,0);
+}
+var requestAnimFrame = (function(){
+    return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    function(callback){
+        window.setTimeout(callback, 1000 /20);
+    };
+})();
