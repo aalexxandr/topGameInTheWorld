@@ -1,7 +1,15 @@
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
-var y = 0;
+//размеры обьекта
+var shitW = 50;
+var shitH = 50;
+//координаты обьекта (рандомное число в пределах сцены, с учетом размеров обьекта)
+var y = Math.floor(Math.random() * ((canvas.height - shitH) - 1)) + 0;
+var x = Math.floor(Math.random() * ((canvas.width - shitW) - 1)) + 0;
+//скорость обьекта
+var speedY = Math.floor(Math.random() * 2 )?10:-10;
+var speedX = Math.floor(Math.random() * 2 )?10:-10;
 
 //это нужно для бесконечного цикла, во всех браузерах
 var requestAnimFrame = (function(){
@@ -19,14 +27,13 @@ var requestAnimFrame = (function(){
 var background = new Image();
 background.src = "./img/background.jpg";
 
-//переменная с обьектом, который будет ловить главный герой
+//переменная с обьектом
 var shit = new Image();
 shit.src = "./img/shit.png";
 
 //после того, как грузится картинка с фоном, запускается функция с игрой и зацикливается
 background.onload = function(){
     game();
-   
 }
 
 //функция с игрой
@@ -37,15 +44,19 @@ function game(){
 }
 
 function update(){
-    y=y+5;
+    y=y+speedY;
+    x=x+speedX;
     //границы
-    if(y>=600){
-        y=0;
+    if(y >= canvas.height - shitH || y<=0){
+      speedY *= -1;
+    }
+    if(x >= canvas.width - shitW || x<=0){
+      speedX *= -1;
     }
 }
 
 //функция подгрузки элементов
 function render(){
     context.drawImage(background, 0,0);
-    context.drawImage(shit, 0, y, 50, 50);
+    context.drawImage(shit, x, y, shitH, shitW);
 }
